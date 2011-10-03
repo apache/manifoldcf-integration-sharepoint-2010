@@ -1,0 +1,139 @@
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<project name="mcf-sharepoint-3.0-plugin" default="help">
+
+    <target name="clean">
+        <delete file="webservice/Web References/SPPermissionsService/Permissions.wsdl"/>
+        <delete file="webservice/Package/*.wsp"/>
+        <delete file="webservice/setup.inf"/>
+        <delete file="webservice/setup.rpt"/>
+        <delete dir="webservice/obj"/>
+        <delete dir="webservice/bin"/>
+        <delete dir="dist"/>
+    </target>
+
+    
+    <target name="calculate-condition">
+        <available file="wsdls/Permissions.wsdl" property="PermissionsStatus"/>
+        <condition property="canBuild">
+            <and>
+                <isset property="PermissionsStatus"/>
+            </and>
+        </condition>
+    </target>
+    
+    <target name="precompile-check" depends="calculate-condition" unless="canBuild">
+        <echo message="Apache SharePoint 3.0 ManifoldCF Plugin cannot be built without Permissions.wsdl"/>
+    </target>
+
+    <target name="compile" depends="precompile-check" if="canBuild">
+        <copy todir="webservice/Web References/SPPermissionsService" file="wsdls/Permissions.wsdl"/>
+        <exec executable="cmd" dir="webservice">
+            <arg value="/c"/>
+            <arg value="build.bat"/>
+        </exec>
+    </target>
+
+    <target name="deliver" depends="compile" if="canBuild">
+        <mkdir dir="dist"/>
+        <copy todir="dist">
+            <fileset dir="webservice/Package">
+                <include name="*.wsp"/>
+                <include name="*.bat"/>
+                <include name="*.txt"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="build" depends="deliver" if="canBuild"/>
+    
+    <target name="set-version">
+        <property name="release-version" value="0.1-incubating-dev"/>
+    </target>
+      
+    <target name="create-source-zip" depends="set-version">
+      <zip destfile="apache-sharepoint-3.0-manifoldcf-plugin-${release-version}-src.zip" update="false">
+        <zipfileset dir="." prefix="apache-sharepoint-3.0-manifoldcf-plugin-${release-version}">
+          <exclude name="/wsdls/Permissions.wsdl"/>
+          <exclude name="/webservice/Web References/SPPermissionsService/Permissions.wsdl"/>
+          <exclude name="/webservice/Package/*.wsp"/>
+          <exclude name="/dist/"/>
+          <exclude name="/apache-sharepoint-3.0-manifoldcf-plugin-*"/>
+        </zipfileset>
+      </zip>
+    </target>
+      
+    <target name="create-source-tar" depends="set-version">
+      <tar destfile="apache-sharepoint-3.0-manifoldcf-plugin-${release-version}-src.tar.gz" compression="gzip" longfile="gnu">
+        <tarfileset dir="." prefix="apache-sharepoint-3.0-manifoldcf-plugin-${release-version}">
+          <exclude name="/wsdls/Permissions.wsdl"/>
+          <exclude name="/webservice/Web References/SPPermissionsService/Permissions.wsdl"/>
+          <exclude name="/webservice/Package/*.wsp"/>
+          <exclude name="/dist/"/>
+          <exclude name="/apache-sharepoint-3.0-manifoldcf-plugin-*"/>
+        </tarfileset>
+      </tar>
+    </target>
+
+    <target name="image" depends="create-source-zip,create-source-tar"/>
+
+    <target name="help">
+        <echo level="info">
+Apache SharePoint 3.0 ManifoldCF Plugin build file.  Use this
+file to build the plugin distributables.
+
+Useful targets are:
+
+clean   - Clean the build area
+build   - Build package under the 'dist' directory
+image   - Package the sources
+
+Prerequisites: This build requires Windows, with .NET 1.0
+and .NET 3.0 to be installed, and Microsoft.SharePoint.dll to
+be installed in the appropriate assembly directory.
+        </echo>
+    </target>
+  
+    <target name="-taskdef">
+      <typedef resource="org/apache/rat/anttasks/antlib.xml" uri="antlib:rat.anttasks">
+        <classpath>
+          <fileset dir="." includes="rat*.jar"/>
+        </classpath>
+      </typedef>
+    </target>
+    <target name="rat-sources" depends="-taskdef"
+      description="runs the tasks over src/java excluding the license directory">
+      <rat:report xmlns:rat="antlib:org.apache.rat.anttasks">
+        <fileset dir="webservice/">
+          <exclude name="/Web References/SPPermissionsService/Permissions.wsdl"/>
+          <exclude name="/MCPermissionsService.csproj"/>
+          <exclude name="/MetaCarta.snk"/>
+          <exclude name="/Properties/AssemblyInfo.cs"/>
+          <exclude name="/Properties/Settings.Designer.cs"/>
+          <exclude name="/Properties/Settings.settings"/>
+          <exclude name="/Web References/SPPermissionsService/Reference.cs"/>
+          <exclude name="/Web References/SPPermissionsService/Reference.map"/>
+          <exclude name="/obj/*"/>
+          <exclude name="/bin/*"/>
+          <exclude name="/setup.inf"/>
+          <exclude name="/setup.rpt"/>
+        </fileset>
+      </rat:report>
+    </target>
+
+</project>
