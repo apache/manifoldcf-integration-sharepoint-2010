@@ -124,18 +124,18 @@ be installed in the appropriate assembly directory.
       description="runs the tasks over src/java excluding the license directory">
       <rat:report xmlns:rat="antlib:org.apache.rat.anttasks">
         <fileset dir="webservice/">
-          <exclude name="/Web References/SPPermissionsService/Permissions.wsdl"/>
-          <exclude name="/MCPermissionsService.csproj"/>
-          <exclude name="/MetaCarta.snk"/>
-          <exclude name="/Properties/AssemblyInfo.cs"/>
-          <exclude name="/Properties/Settings.Designer.cs"/>
-          <exclude name="/Properties/Settings.settings"/>
-          <exclude name="/Web References/SPPermissionsService/Reference.cs"/>
-          <exclude name="/Web References/SPPermissionsService/Reference.map"/>
-          <exclude name="/obj/*"/>
-          <exclude name="/bin/*"/>
-          <exclude name="/setup.inf"/>
-          <exclude name="/setup.rpt"/>
+          <exclude name="Web References/SPPermissionsService/Permissions.wsdl"/>
+          <exclude name="MCPermissionsService.csproj"/>
+          <exclude name="MetaCarta.snk"/>
+          <exclude name="Properties/AssemblyInfo.cs"/>
+          <exclude name="Properties/Settings.Designer.cs"/>
+          <exclude name="Properties/Settings.settings"/>
+          <exclude name="Web References/SPPermissionsService/Reference.cs"/>
+          <exclude name="Web References/SPPermissionsService/Reference.map"/>
+          <exclude name="obj/**/*"/>
+          <exclude name="bin/*"/>
+          <exclude name="setup.inf"/>
+          <exclude name="setup.rpt"/>
         </fileset>
       </rat:report>
     </target>
