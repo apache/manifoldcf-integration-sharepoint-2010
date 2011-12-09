@@ -19,8 +19,7 @@
 
     <target name="clean">
         <delete>
-	<fileset dir="." includes="apache-manifoldcf-sharepoint-3.0-plugin-*.zip"/>
-          <fileset dir="." includes="apache-manifoldcf-sharepoint-3.0-plugin-*.tar.gz"/>
+	<fileset dir="." includes="apache-manifoldcf-sharepoint-3.0-plugin-*"/>
         </delete>
         <delete file="webservice/Web References/SPPermissionsService/Permissions.wsdl"/>
         <delete file="webservice/Package/*.wsp"/>
