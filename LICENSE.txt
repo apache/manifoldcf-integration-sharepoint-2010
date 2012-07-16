@@ -176,3 +176,6 @@
    END OF TERMS AND CONDITIONS
 
 
+This software includes application interface descriptions generated in
+part from proprietary libraries licensed by Microsoft, Inc.
+
