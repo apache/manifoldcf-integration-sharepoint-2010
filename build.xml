@@ -46,7 +46,7 @@
 
     <target name="compile" depends="precompile-check" if="canBuild">
         <copy todir="webservice/Web References/SPPermissionsService" file="wsdls/Permissions.wsdl"/>
-        <exec executable="cmd" dir="webservice">
+        <exec executable="cmd" dir="webservice" failonerror="true" failifexecutionfails="true">
             <arg value="/c"/>
             <arg value="build.bat"/>
         </exec>
