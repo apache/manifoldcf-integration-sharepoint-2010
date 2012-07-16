@@ -75,10 +75,11 @@ In SharePoint 2.0, sometimes called SharePoint 2003, one can attach AD users or
 groups to the following: The SharePoint website as a whole, sites (subsites too), and
 libraries.  You cannot set security on folders or files ("items") directly, however.
 
-B.  SharePoint 3.0 Security Model
+B.  SharePoint 3.0+ Security Model
 
-In SharePoint 3.0, sometimes called SharePoint 2007, one can attach AD users or
-groups to folders and files in, addition to the functionality provided in SharePoint 2.0.
+In SharePoint 3.0, sometimes called SharePoint 2007, and in SharePoint 4.0, sometimes
+called SharePoint 2010, one can attach AD users or groups to folders and files in,
+addition to the functionality provided in SharePoint 2.0.
 
 IV.  SharePoint Connector security
 
@@ -98,7 +99,8 @@ This web service was sufficient for the SharePoint Connector's security queries 
 because there was no ability in that release to set permissions directly on folders or files.
 When SharePoint 3.0 was released, and new folder and item security levels were permitted,
 one would have thought that Microsoft would have augmented the Permissions web
-service accordingly.  Unfortunately, however, they did not.  No other out-of-the-box
+service accordingly.  Unfortunately, however, they did not.  Nor has the Permissions web
+service been augmented in SharePoint 40.0  No other out-of-the-box
 web services which performed this necessary functionality were available either.  We did
 inquire (through Magenic, MetaCarta's SharePoint contractor) whether Microsoft would be willing to
 release an augmented Permissions service as a patch, but they declined to do so.
