@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-Instructions for Building Apache ManifoldCF SharePoint 3.0 Plugin from Source
+Instructions for Building Apache ManifoldCF SharePoint 2010 Plugin from Source
 --------------------------------------------------------------------------
 
 1. Download the Java SE 5 JDK (Java Development Kit), or greater, from http://java.sun.com.
@@ -31,16 +31,16 @@ Instructions for Building Apache ManifoldCF SharePoint 3.0 Plugin from Source
    build.xml file), and type "ant" for directions.
 
 
-Some Files Included In Apache ManifoldCF SharePoint 3.0 Plugin Distributions
+Some Files Included In Apache ManifoldCF SharePoint 2010 Plugin Distributions
 -------------------------------------------------------------------------
 
 dist/MetaCarta.SharePoint.MCPermissionsService.wsp
-  The Apache ManifoldCF SharePoint 3.0 Plugin assembly.
+  The Apache ManifoldCF SharePoint 2010 Plugin assembly.
 
 Licensing
 ---------
 
-Apache ManifoldCF SharePoint 3.0 Plugin is licensed under the
+Apache ManifoldCF SharePoint 2010 Plugin is licensed under the
 Apache License 2.0. See the files called LICENSE.txt and NOTICE.txt
 for more information.
 
@@ -69,7 +69,7 @@ code and source code.
 The following provides more details on the included software that
 may be subject to export controls on cryptographic software:
 
-  The Apache ManifoldCF SharePoint 3.0 Plugin
+  The Apache ManifoldCF SharePoint 2010 Plugin
   does not include any implementation or usage of cryptographic software
   at this time.
   
@@ -77,5 +77,5 @@ Contact
 -------
 
   o For general information visit the main project site at
-    http://incubator.apache.org/connectors
+    http://manifoldcf.apache.org
 
