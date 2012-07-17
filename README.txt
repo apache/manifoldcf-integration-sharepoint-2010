@@ -17,17 +17,26 @@
 Instructions for Building Apache ManifoldCF SharePoint 2010 Plugin from Source
 --------------------------------------------------------------------------
 
-1. Download the Java SE 5 JDK (Java Development Kit), or greater, from http://java.sun.com.
+This source MUST be built on a Windows system.
+
+1. Make sure you have .NET Framework 1.0 and .NET Framework 3.0 installed.
+
+2. Place the Microsoft SharePoint 2010 dll in the right place.  There are several places
+   that will work.  The preferred place is:
+   
+   C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.5\Microsoft.SharePoint.dll
+   
+3. Download the Java SE 5 JDK (Java Development Kit), or greater, from http://java.sun.com.
    You will need the JDK installed, and the %JAVA_HOME%\bin directory included
    on your command path.  To test this, issue a "java -version" command from your
    shell and verify that the Java version is 1.5 or greater.
 
-2. Download the Apache Ant binary distribution (1.7.0 or greater) from http://ant.apache.org.
+4. Download the Apache Ant binary distribution (1.7.0 or greater) from http://ant.apache.org.
    You will need Ant installed and the %ANT_HOME%\bin directory included on your
    command path.  To test this, issue a "ant -version" command from your
    shell and verify that Ant is available.
 
-3. In a shell, change to the root directory of the source (where you find the outermost
+5. In a shell, change to the root directory of the source (where you find the outermost
    build.xml file), and type "ant" for directions.
 
 
