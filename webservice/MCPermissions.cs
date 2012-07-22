@@ -85,6 +85,13 @@ namespace MetaCarta.SharePoint.SoapServer
             return retVal;
         }
 
+        [WebMethod(Description = "Returns the list of contents of a library without interference from administrator-set limits.")]
+        public XmlNode GetListItems(string listName, string startRow, string rowLimit)
+        {
+            // MHL - add code that lists items and allows paging through the results using startRow and rowLimit
+            return null;
+        }
+        
         #endregion
 
         #region Private Methods

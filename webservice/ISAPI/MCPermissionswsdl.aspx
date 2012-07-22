@@ -41,6 +41,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetListItems">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="listName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="startRow" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="rowLimit" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListItemsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListItemsResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetPermissionCollectionSoapIn">
@@ -49,11 +71,22 @@
   <wsdl:message name="GetPermissionCollectionSoapOut">
     <wsdl:part name="parameters" element="tns:GetPermissionCollectionResponse" />
   </wsdl:message>
+  <wsdl:message name="GetListItemsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListItems" />
+  </wsdl:message>
+  <wsdl:message name="GetListItemsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListItemsResponse" />
+  </wsdl:message>
   <wsdl:portType name="PermissionsSoap">
     <wsdl:operation name="GetPermissionCollection">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the collection of permissions for a site, list, or list item.</wsdl:documentation>
       <wsdl:input message="tns:GetPermissionCollectionSoapIn" />
       <wsdl:output message="tns:GetPermissionCollectionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListItems">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Returns the list of contents of a library without interference from administrator-set limits.</wsdl:documentation>
+      <wsdl:input message="tns:GetListItemsSoapIn" />
+      <wsdl:output message="tns:GetListItemsSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="PermissionsSoap" type="tns:PermissionsSoap">
@@ -67,11 +100,29 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetListItems">
+      <soap:operation soapAction="http://schemas.microsoft.com/sharepoint/soap/GetListItems" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="PermissionsSoap12" type="tns:PermissionsSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetPermissionCollection">
       <soap12:operation soapAction="http://microsoft.com/sharepoint/webpartpages/GetPermissionCollection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListItems">
+      <soap12:operation soapAction="http://schemas.microsoft.com/sharepoint/soap/GetListItems" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
