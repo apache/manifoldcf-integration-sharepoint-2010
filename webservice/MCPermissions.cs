@@ -88,8 +88,58 @@ namespace MetaCarta.SharePoint.SoapServer
         [WebMethod(Description = "Returns the list of contents of a library without interference from administrator-set limits.")]
         public XmlNode GetListItems(string listName, string startRow, string rowLimit)
         {
-            // MHL - add code that lists items and allows paging through the results using startRow and rowLimit
-            return null;
+            XmlNode retVal = null;
+
+            try
+            {
+                uint startRowParam = Convert.ToUInt32(startRow);
+                uint rowLimitParam = Convert.ToUInt32(rowLimit);
+
+                using (SPWeb oWebsiteRoot = SPContext.Current.Site.RootWeb)
+                {
+
+                    oWebsiteRoot.Lists.IncludeRootFolder = true;
+                    SPList oList = oWebsiteRoot.Lists[listName];
+
+                    SPQuery listQuery = new SPQuery();
+                    listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
+                    listQuery.RowLimit = startRowParam + rowLimitParam;
+
+                    SPListItemCollection collListItems = oList.GetItems(listQuery);
+
+                    XmlDocument doc = new XmlDocument();
+                    retVal = doc.CreateElement("GetListItems", 
+                        "http://schemas.microsoft.com/sharepoint/soap/directory/");
+                    XmlNode getListItemsNode = doc.CreateElement("GetListItemsResponse");
+
+                    uint counter = 0;
+                    foreach (SPListItem oListItem in collListItems)
+                    {
+                        if (counter >= startRowParam)
+                        {
+                            XmlNode resultNode = doc.CreateElement("GetListItemsResult");
+                            XmlAttribute idAttribute = doc.CreateAttribute("ID");
+                            idAttribute.Value = Convert.ToString(oListItem.ID);
+                            resultNode.Attributes.Append(idAttribute);
+                            getListItemsNode.AppendChild(resultNode);
+                        }
+                        counter++;
+                    }
+                    
+                    retVal.AppendChild(getListItemsNode);
+                }
+            }
+            catch (SoapException soapEx)
+            {
+                throw soapEx;
+            }
+            catch (Exception ex)
+            {
+                EventLog.WriteEntry("MCPermissions.asmx", ex.Message);
+                throw RaiseException(ex.Message, "1010", ex.Source);
+            }
+
+            return retVal;
         }
         
         #endregion
