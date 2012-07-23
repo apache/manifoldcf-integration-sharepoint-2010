@@ -118,8 +118,8 @@ namespace MetaCarta.SharePoint.SoapServer
                         if (counter >= startRowParam)
                         {
                             XmlNode resultNode = doc.CreateElement("GetListItemsResult");
-                            XmlAttribute idAttribute = doc.CreateAttribute("ID");
-                            idAttribute.Value = Convert.ToString(oListItem.ID);
+                            XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
+                            idAttribute.Value = oListItem.Url;
                             resultNode.Attributes.Append(idAttribute);
                             getListItemsNode.AppendChild(resultNode);
                         }
