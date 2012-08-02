@@ -40,7 +40,7 @@ namespace MetaCarta.SharePoint.SoapServer
     {
         #region Private Fields
 
-        private readonly string itemType = "item";
+        private readonly string itemType = "Item";
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace MetaCarta.SharePoint.SoapServer
             try
             {
                 // Only handle requests for "item".  Send all other requests to the SharePoint web service.
-                if (objectType.ToLower().Equals(itemType))
+                if (objectType.Equals(itemType))
                 {
                     retVal = GetItemPermissions(objectName);
                 }
