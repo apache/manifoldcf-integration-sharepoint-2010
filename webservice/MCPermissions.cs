@@ -95,7 +95,8 @@ namespace MetaCarta.SharePoint.SoapServer
                 uint startRowParam = Convert.ToUInt32(startRow);
                 uint rowLimitParam = Convert.ToUInt32(rowLimit);
 
-                using (SPWeb oWebsiteRoot = SPContext.Current.Site.RootWeb)
+                SPWeb oWebsiteRoot = SPContext.Current.Site.RootWeb;
+                if (oWebsiteRoot != null)
                 {
 
                     oWebsiteRoot.Lists.IncludeRootFolder = true;
@@ -103,30 +104,40 @@ namespace MetaCarta.SharePoint.SoapServer
 
                     SPQuery listQuery = new SPQuery();
                     listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
-                    listQuery.RowLimit = startRowParam + rowLimitParam;
-
-                    SPListItemCollection collListItems = oList.GetItems(listQuery);
-
-                    XmlDocument doc = new XmlDocument();
-                    retVal = doc.CreateElement("GetListItems", 
-                        "http://schemas.microsoft.com/sharepoint/soap/directory/");
-                    XmlNode getListItemsNode = doc.CreateElement("GetListItemsResponse");
+                    listQuery.RowLimit = 1000;
 
                     uint counter = 0;
-                    foreach (SPListItem oListItem in collListItems)
+                    do
                     {
-                        if (counter >= startRowParam)
+                        if (counter >= startRowParam + rowLimitParam)
+                            break;
+
+                        // Will this work?  Or will it reset something unexpected?
+                        if (startRowParam + rowLimitParam - counter < 1000)
+                            listQuery.RowLimit = startRowParam + rowLimitParam - counter;
+
+                        SPListItemCollection collListItems = oList.GetItems(listQuery);
+
+                        XmlDocument doc = new XmlDocument();
+                        retVal = doc.CreateElement("GetListItems", 
+                            "http://schemas.microsoft.com/sharepoint/soap/directory/");
+                        XmlNode getListItemsNode = doc.CreateElement("GetListItemsResponse");
+
+                        foreach (SPListItem oListItem in collListItems)
                         {
-                            XmlNode resultNode = doc.CreateElement("GetListItemsResult");
-                            XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
-                            idAttribute.Value = oListItem.Url;
-                            resultNode.Attributes.Append(idAttribute);
-                            getListItemsNode.AppendChild(resultNode);
+                            if (counter >= startRowParam)
+                            {
+                                XmlNode resultNode = doc.CreateElement("GetListItemsResult");
+                                XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
+                                idAttribute.Value = oListItem.Url;
+                                resultNode.Attributes.Append(idAttribute);
+                                getListItemsNode.AppendChild(resultNode);
+                            }
+                            counter++;
                         }
-                        counter++;
-                    }
-                    
-                    retVal.AppendChild(getListItemsNode);
+                        
+                        retVal.AppendChild(getListItemsNode);
+                    } while (listQuery.ListItemCollectionPosition != null);
                 }
             }
             catch (SoapException soapEx)
