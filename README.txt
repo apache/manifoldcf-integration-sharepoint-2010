@@ -21,7 +21,7 @@ This source MUST be built on a Windows system.
 
 1. Make sure you have .NET Framework 1.0 and .NET Framework 3.0 installed.
 
-2. Place the Microsoft SharePoint 2010 dll in the right place.  There are several places
+2. Place the Microsoft SharePoint 2010 dll in the right place, you can take this file from C:\Program Files\Common Files\Microsoft Shared\Web Server Extensions\14\UserCode\assemblies.  There are several places
    that will work.  The preferred place is:
    
    C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.5\Microsoft.SharePoint.dll
