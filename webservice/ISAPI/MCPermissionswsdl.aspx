@@ -122,7 +122,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetListItems">
-      <soap12:operation soapAction="http://schemas.microsoft.com/sharepoint/soap/GetListItems" style="document" />
+      <soap12:operation soapAction="http://microsoft.com/sharepoint/webpartpages/GetListItems" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
