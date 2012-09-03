@@ -101,7 +101,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetListItems">
-      <soap:operation soapAction="http://schemas.microsoft.com/sharepoint/soap/GetListItems" style="document" />
+      <soap:operation soapAction="http://microsoft.com/sharepoint/webpartpages/GetListItems" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
