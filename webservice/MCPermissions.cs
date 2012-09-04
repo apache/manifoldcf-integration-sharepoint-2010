@@ -103,7 +103,7 @@ namespace MetaCarta.SharePoint.SoapServer
                         {
 
                             oWebsiteRoot.Lists.IncludeRootFolder = true;
-                            SPList oList = oWebsiteRoot.Lists[listName];
+                            SPList oList = oWebsiteRoot.Lists[new Guid(listName)];
 
                             SPQuery listQuery = new SPQuery();
                             listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
