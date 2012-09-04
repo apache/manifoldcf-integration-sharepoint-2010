@@ -95,49 +95,55 @@ namespace MetaCarta.SharePoint.SoapServer
                 uint startRowParam = Convert.ToUInt32(startRow);
                 uint rowLimitParam = Convert.ToUInt32(rowLimit);
 
-                SPWeb oWebsiteRoot = SPContext.Current.Site.RootWeb;
-                if (oWebsiteRoot != null)
+                using (SPSite site = new SPSite(SPContext.Current.Web.Url))
                 {
-
-                    oWebsiteRoot.Lists.IncludeRootFolder = true;
-                    SPList oList = oWebsiteRoot.Lists[listName];
-
-                    SPQuery listQuery = new SPQuery();
-                    listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
-                    listQuery.RowLimit = 1000;
-
-                    uint counter = 0;
-                    do
+                    using (SPWeb oWebsiteRoot = site.OpenWeb())
                     {
-                        if (counter >= startRowParam + rowLimitParam)
-                            break;
-
-                        // Will this work?  Or will it reset something unexpected?
-                        if (startRowParam + rowLimitParam - counter < 1000)
-                            listQuery.RowLimit = startRowParam + rowLimitParam - counter;
-
-                        SPListItemCollection collListItems = oList.GetItems(listQuery);
-
-                        XmlDocument doc = new XmlDocument();
-                        retVal = doc.CreateElement("GetListItems", 
-                            "http://schemas.microsoft.com/sharepoint/soap/directory/");
-                        XmlNode getListItemsNode = doc.CreateElement("GetListItemsResponse");
-
-                        foreach (SPListItem oListItem in collListItems)
+                        if (oWebsiteRoot != null)
                         {
-                            if (counter >= startRowParam)
+
+                            oWebsiteRoot.Lists.IncludeRootFolder = true;
+                            SPList oList = oWebsiteRoot.Lists[listName];
+
+                            SPQuery listQuery = new SPQuery();
+                            listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
+                            listQuery.RowLimit = 1000;
+
+                            uint counter = 0;
+                            do
                             {
-                                XmlNode resultNode = doc.CreateElement("GetListItemsResult");
-                                XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
-                                idAttribute.Value = oListItem.Url;
-                                resultNode.Attributes.Append(idAttribute);
-                                getListItemsNode.AppendChild(resultNode);
-                            }
-                            counter++;
+                                if (counter >= startRowParam + rowLimitParam)
+                                    break;
+
+                                // Will this work?  Or will it reset something unexpected?
+                                if (startRowParam + rowLimitParam - counter < 1000)
+                                    listQuery.RowLimit = startRowParam + rowLimitParam - counter;
+
+                                SPListItemCollection collListItems = oList.GetItems(listQuery);
+
+                                XmlDocument doc = new XmlDocument();
+                                retVal = doc.CreateElement("GetListItems", 
+                                    "http://schemas.microsoft.com/sharepoint/soap/directory/");
+                                XmlNode getListItemsNode = doc.CreateElement("GetListItemsResponse");
+
+                                foreach (SPListItem oListItem in collListItems)
+                                {
+                                    if (counter >= startRowParam)
+                                    {
+                                        XmlNode resultNode = doc.CreateElement("GetListItemsResult");
+                                        XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
+                                        idAttribute.Value = oListItem.Url;
+                                        resultNode.Attributes.Append(idAttribute);
+                                        getListItemsNode.AppendChild(resultNode);
+                                    }
+                                    counter++;
+                                }
+                                
+                                retVal.AppendChild(getListItemsNode);
+                            } while (listQuery.ListItemCollectionPosition != null);
                         }
-                        
-                        retVal.AppendChild(getListItemsNode);
-                    } while (listQuery.ListItemCollectionPosition != null);
+                    }
+
                 }
             }
             catch (SoapException soapEx)
