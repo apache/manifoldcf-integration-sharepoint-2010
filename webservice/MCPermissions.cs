@@ -107,9 +107,10 @@ namespace MetaCarta.SharePoint.SoapServer
 
                             SPQuery listQuery = new SPQuery();
                             listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
+                            listQuery.ViewAttributes = "Scope=\"Recursive\"";
                             listQuery.ViewFields = string.Concat(
-                                   "<ViewAttributes Scope='Recursive'/>",
                                    "<FieldRef Name='FileRef' />");
+
 
                             listQuery.RowLimit = 1000;
 
