@@ -106,10 +106,10 @@ namespace MetaCarta.SharePoint.SoapServer
                             SPList oList = oWebsiteRoot.Lists[new Guid(listName)];
 
                             SPQuery listQuery = new SPQuery();
+                            listQuery.Query = "<OrderBy Override=\"TRUE\"><FieldRef Name=\"FileRef\" /></OrderBy>";
                             listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
                             listQuery.ViewAttributes = "Scope=\"Recursive\"";
-                            listQuery.ViewFields = string.Concat(
-                                   "<FieldRef Name='FileRef' />");
+                            listQuery.ViewFields = "<FieldRef Name='FileRef' />";
                             listQuery.RowLimit = 1000;
 
                             XmlDocument doc = new XmlDocument();
@@ -139,6 +139,8 @@ namespace MetaCarta.SharePoint.SoapServer
                                     counter++;
                                 }
                                 
+                                listQuery.ListItemCollectionPosition = collListItems.ListItemCollectionPosition;
+
                             } while (listQuery.ListItemCollectionPosition != null);
                             
                             retVal.AppendChild(getListItemsNode);
