@@ -110,9 +110,12 @@ namespace MetaCarta.SharePoint.SoapServer
                             listQuery.ViewAttributes = "Scope=\"Recursive\"";
                             listQuery.ViewFields = string.Concat(
                                    "<FieldRef Name='FileRef' />");
-
-
                             listQuery.RowLimit = 1000;
+
+                            XmlDocument doc = new XmlDocument();
+                            retVal = doc.CreateElement("GetListItems", 
+                                "http://schemas.microsoft.com/sharepoint/soap/directory/");
+                            XmlNode getListItemsNode = doc.CreateElement("GetListItemsResponse");
 
                             uint counter = 0;
                             do
@@ -120,20 +123,12 @@ namespace MetaCarta.SharePoint.SoapServer
                                 if (counter >= startRowParam + rowLimitParam)
                                     break;
 
-                                // Will this work?  Or will it reset something unexpected?
-                                if (startRowParam + rowLimitParam - counter < 1000)
-                                    listQuery.RowLimit = startRowParam + rowLimitParam - counter;
-
                                 SPListItemCollection collListItems = oList.GetItems(listQuery);
 
-                                XmlDocument doc = new XmlDocument();
-                                retVal = doc.CreateElement("GetListItems", 
-                                    "http://schemas.microsoft.com/sharepoint/soap/directory/");
-                                XmlNode getListItemsNode = doc.CreateElement("GetListItemsResponse");
 
                                 foreach (SPListItem oListItem in collListItems)
                                 {
-                                    if (counter >= startRowParam)
+                                    if (counter >= startRowParam && counter < startRowParam + rowLimitParam)
                                     {
                                         XmlNode resultNode = doc.CreateElement("GetListItemsResult");
                                         XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
@@ -144,8 +139,9 @@ namespace MetaCarta.SharePoint.SoapServer
                                     counter++;
                                 }
                                 
-                                retVal.AppendChild(getListItemsNode);
                             } while (listQuery.ListItemCollectionPosition != null);
+                            
+                            retVal.AppendChild(getListItemsNode);
                         }
                     }
 
