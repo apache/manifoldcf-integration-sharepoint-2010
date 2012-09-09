@@ -1,8 +1,6 @@
 Apache ManifoldCF SharePoint 2010 Plugin change Log
 $Id$
 
-======================= 0.2-dev =====================
-
 ======================= Release 0.1 =====================
 
 CONNECTORS-492: Add a GetListItems() method to support obtaining
