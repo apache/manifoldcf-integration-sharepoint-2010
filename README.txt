@@ -26,7 +26,7 @@ This source MUST be built on a Windows system.
    
    C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.5\Microsoft.SharePoint.dll
    
-3. Download the Java SE 5 JDK (Java Development Kit), or greater, from http://java.sun.com.
+3. Download the Java SE 5 JDK (Java Development Kit), or greater, from http://www.oracle.com/technetwork/java/index.html.
    You will need the JDK installed, and the %JAVA_HOME%\bin directory included
    on your command path.  To test this, issue a "java -version" command from your
    shell and verify that the Java version is 1.5 or greater.
