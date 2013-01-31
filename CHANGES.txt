@@ -3,6 +3,10 @@ $Id$
 
 ======================= 0.2-dev =====================
 
+CONNECTORS-534: Repackage plugins to have a true binary release,
+with appropriate DEPENDENCIES.txt, README's etc.
+(Karl Wright)
+
 ======================= Release 0.1 =====================
 
 CONNECTORS-492: Add a GetListItems() method to support obtaining
