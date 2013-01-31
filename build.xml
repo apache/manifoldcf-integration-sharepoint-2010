@@ -43,6 +43,8 @@
             <fileset dir="webservice/Package">
                 <include name="*.wsp"/>
                 <include name="*.bat"/>
+            </fileset>
+            <fileset dir="dist-license">
                 <include name="*.txt"/>
             </fileset>
         </copy>

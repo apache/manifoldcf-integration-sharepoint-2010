@@ -1,0 +1,10 @@
+Apache ManifoldCF SharePoint 2010 Plugin requires
+-------------------------------------------------
+* Microsoft SharePoint version 4.0 (2010)
+
+For running Apache ManifoldCF SharePoint 2010 Plugin:
+----------------------------------------------------
+
+* See README.txt
+
+
