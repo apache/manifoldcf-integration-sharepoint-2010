@@ -90,22 +90,14 @@
 
     <target name="create-bin-zip" depends="build,set-version">
       <zip destfile="apache-manifoldcf-sharepoint-2010-plugin-${release-version}-bin.zip" update="false">
-        <zipfileset dir="." prefix="apache-manifoldcf-sharepoint-2010-plugin-${release-version}">
-          <exclude name="/wsdls/"/>
-          <exclude name="/webservice/"/>
-          <exclude name="apache-manifoldcf-sharepoint-2010-plugin-*"/>
-          <exclude name="build.xml"/>
+        <zipfileset dir="dist" prefix="apache-manifoldcf-sharepoint-2010-plugin-${release-version}">
         </zipfileset>
       </zip>
     </target>
       
     <target name="create-bin-tar" depends="build,set-version">
       <tar destfile="apache-manifoldcf-sharepoint-2010-plugin-${release-version}-bin.tar.gz" compression="gzip" longfile="gnu">
-        <tarfileset dir="." prefix="apache-manifoldcf-sharepoint-2010-plugin-${release-version}">
-          <exclude name="/wsdls/"/>
-          <exclude name="/webservice/"/>
-          <exclude name="apache-manifoldcf-sharepoint-2010-plugin-*"/>
-          <exclude name="build.xml"/>
+        <tarfileset dir="dist" prefix="apache-manifoldcf-sharepoint-2010-plugin-${release-version}">
         </tarfileset>
       </tar>
     </target>
