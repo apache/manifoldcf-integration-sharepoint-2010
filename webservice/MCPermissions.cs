@@ -78,7 +78,7 @@ namespace MetaCarta.SharePoint.SoapServer
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("MCPermissions.asmx", ex.Message);
+                EventLog.WriteEntry("MCPermissions.asmx", "Error: "+ex.Message+"; SPContext.Current.Web.Url='"+SPContext.Current.Web.Url+"'");
                 throw RaiseException(ex.Message, "1000", ex.Source);
             }
 
