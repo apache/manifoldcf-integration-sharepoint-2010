@@ -14,8 +14,8 @@
 # limitations under the License.
 
 
-Instructions for Building Apache ManifoldCF SharePoint 2010 Plugin from Source
---------------------------------------------------------------------------
+Instructions for Building Apache ManifoldCF Plugin for SharePoint 2010 from Source
+-------------------------------------------------------------------------------
 
 This source MUST be built on a Windows system.
 
@@ -40,11 +40,11 @@ This source MUST be built on a Windows system.
    build.xml file), and type "ant" for directions.
 
 
-Some Files Included In Apache ManifoldCF SharePoint 2010 Plugin Distributions
--------------------------------------------------------------------------
+Some Files Included In Apache ManifoldCF Plugin for SharePoint 2010 Distributions
+------------------------------------------------------------------------------
 
 dist/MetaCarta.SharePoint.MCPermissionsService.wsp
-  The Apache ManifoldCF SharePoint 2010 Plugin assembly.
+  The Apache ManifoldCF Plugin for SharePoint 2010 assembly.
 
 Licensing
 ---------
@@ -78,12 +78,12 @@ code and source code.
 The following provides more details on the included software that
 may be subject to export controls on cryptographic software:
 
-  The Apache ManifoldCF SharePoint 2010 Plugin
+  The Apache ManifoldCF Plugin for SharePoint 2010 
   does not include any implementation or usage of cryptographic software
   at this time.
   
 Contact
--------
+--------
 
   o For general information visit the main project site at
     http://manifoldcf.apache.org

@@ -14,8 +14,8 @@
 # limitations under the License.
 
 
-Instructions for running Apache ManifoldCF SharePoint 2010
----------------------------------------------------------
+Instructions for running Apache ManifoldCF Plugin for SharePoint 2010
+------------------------------------------------------------------
 
 This web service is deployed using the SharePoint stsadm utility.  There are several included batch files: setup.bat (for first-time installation),
 and upgrade.bat (for subsequent installations).  There is also a remove.bat, in case there is a need to uninstall the web service.
@@ -55,16 +55,16 @@ Remove an installation
    modify the remove.bat file first for it to be able to locate stsadm.exe.
 
 
-Some Files Included In Apache ManifoldCF SharePoint 2010 Plugin Distributions
--------------------------------------------------------------------------
+Some files included in Apache ManifoldCF Plugin for SharePoint 2010 distributions
+-----------------------------------------------------------------------------
 
 dist/MetaCarta.SharePoint.MCPermissionsService.wsp
-  The Apache ManifoldCF SharePoint 2010 Plugin assembly.
+  The Apache ManifoldCF Plugin for SharePoint 2010 assembly.
 
 Licensing
 ---------
 
-Apache ManifoldCF SharePoint 2010 Plugin is licensed under the
+Apache ManifoldCF Plugin for SharePoint 2010 is licensed under the
 Apache License 2.0. See the files called LICENSE.txt and NOTICE.txt
 for more information.
 
@@ -93,7 +93,7 @@ code and source code.
 The following provides more details on the included software that
 may be subject to export controls on cryptographic software:
 
-  The Apache ManifoldCF SharePoint 2010 Plugin
+  The Apache ManifoldCF Plugin for SharePoint 2010
   does not include any implementation or usage of cryptographic software
   at this time.
   
