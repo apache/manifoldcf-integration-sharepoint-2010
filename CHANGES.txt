@@ -3,6 +3,9 @@ $Id$
 
 ======================= 0.3-dev =====================
 
+CONNECTORS-758: Change log output to go to trace log.
+(Christian M. Rieck, Will Parkinson, Karl Wright)
+
 ======================= Release 0.2 =====================
 
 CONNECTORS-534: Repackage plugins to have a true binary release,
