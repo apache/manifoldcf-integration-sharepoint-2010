@@ -79,7 +79,7 @@ namespace MetaCarta.SharePoint.SoapServer
             }
             catch (Exception ex)
             {
-                SPDiagnosticsService.Local.WriteTrace(0, new SPDiagnosticsCategory("MCPermissions.asmx", TraceSeverity.Medium, EventSeverity.Error), TraceSeverity.Medium, "Error: "+ex.Message+"; SPContext.Current.Web.Url='"+SPContext.Current.Web.Url+"'");
+                SPDiagnosticsService.Local.WriteTrace(0, new SPDiagnosticsCategory("MCPermissions.asmx", TraceSeverity.Unexpected, EventSeverity.Error), TraceSeverity.Unexpected, "Error: "+ex.Message+"; SPContext.Current.Web.Url='"+SPContext.Current.Web.Url+"'", ex.StackTrace());
                 throw RaiseException(ex.Message, "1000", ex.Source);
             }
 
@@ -156,7 +156,7 @@ namespace MetaCarta.SharePoint.SoapServer
             }
             catch (Exception ex)
             {
-                SPDiagnosticsService.Local.WriteTrace(0, new SPDiagnosticsCategory("MCPermissions.asmx", TraceSeverity.Medium, EventSeverity.Error), TraceSeverity.Medium, "Error: "+ex.Message);
+                SPDiagnosticsService.Local.WriteTrace(0, new SPDiagnosticsCategory("MCPermissions.asmx", TraceSeverity.Unexpected, EventSeverity.Error), TraceSeverity.Unexpected, "Error: "+ex.Message, ex.StackTrace());
                 throw RaiseException(ex.Message, "1010", ex.Source);
             }
 
