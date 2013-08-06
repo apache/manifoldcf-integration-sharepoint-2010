@@ -26,6 +26,7 @@ using System.Security.Permissions;
 using System.Xml;
 using System.Diagnostics;
 using Microsoft.SharePoint;
+using Microsoft.SharePoint.Administration;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
@@ -78,7 +79,7 @@ namespace MetaCarta.SharePoint.SoapServer
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("MCPermissions.asmx", "Error: "+ex.Message+"; SPContext.Current.Web.Url='"+SPContext.Current.Web.Url+"'");
+                SPDiagnosticsService.Local.WriteTrace(0, new SPDiagnosticsCategory("MCPermissions.asmx", TraceSeverity.Unexpected, EventSeverity.Error), TraceSeverity.Unexpected, "Error: "+ex.Message+"; SPContext.Current.Web.Url='"+SPContext.Current.Web.Url+"'", ex.StackTrace);
                 throw RaiseException(ex.Message, "1000", ex.Source);
             }
 
@@ -155,7 +156,7 @@ namespace MetaCarta.SharePoint.SoapServer
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("MCPermissions.asmx", ex.Message);
+                SPDiagnosticsService.Local.WriteTrace(0, new SPDiagnosticsCategory("MCPermissions.asmx", TraceSeverity.Unexpected, EventSeverity.Error), TraceSeverity.Unexpected, "Error: "+ex.Message, ex.StackTrace);
                 throw RaiseException(ex.Message, "1010", ex.Source);
             }
 
