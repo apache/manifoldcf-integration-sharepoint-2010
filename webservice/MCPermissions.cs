@@ -42,6 +42,8 @@ namespace MetaCarta.SharePoint.SoapServer
         #region Private Fields
 
         private readonly string itemType = "Item";
+        private readonly string listType = "List";
+        private readonly string webType = "Web";
 
         #endregion
 
@@ -59,23 +61,18 @@ namespace MetaCarta.SharePoint.SoapServer
                 {
                     retVal = GetItemPermissions(objectName);
                 }
+                else if (objectType.Equals(listType))
+                {
+                    retVal = GetListPermissions(objectName);
+                }
+                else if (objectType.Equals(webType))
+                {
+                    retVal = GetWebPermissions(objectName);
+                }
                 else
                 {
-                    ServicePointManager.ServerCertificateValidationCallback +=
-                        new RemoteCertificateValidationCallback(ValidateCertificate);
-
-                    using (SPPermissionsService.Permissions service = new SPPermissionsService.Permissions())
-                    {
-                        service.Url = SPContext.Current.Web.Url + "/_vti_bin/Permissions.asmx";
-                        service.Credentials = System.Net.CredentialCache.DefaultCredentials;
-
-                        retVal = service.GetPermissionCollection(objectName, objectType);
-                    }
+                    throw new Exception("Unknown permission type: " + objectType);
                 }
-            }
-            catch (SoapException soapEx)
-            {
-                throw soapEx;
             }
             catch (Exception ex)
             {
@@ -168,6 +165,42 @@ namespace MetaCarta.SharePoint.SoapServer
         #region Private Methods
 
         /// <summary>
+        /// Given the name of a list, return an XML fragment describing the set of permissions
+        /// for the specified list.
+        /// </summary>
+        /// <param name="itemName">A string containing the name of a list item</param>
+        /// <returns>An XML fragment</returns>
+        private XmlNode GetListPermissions(string listName)
+        {
+            if (string.IsNullOrEmpty(listName))
+                throw RaiseException("Parameter 'objectName' cannot be null or empty.", "2000", "GetPermissionCollection");
+
+            using (SPWeb site = SPContext.Current.Web)
+            {
+                SPList item = site.GetList(listName);
+
+                return PopulateResponse(item);
+            }
+        }
+
+        /// <summary>
+        /// Given the current site, return an XML fragment describing the set of permissions
+        /// for the site.
+        /// </summary>
+        /// <param name="itemName">A string containing the name of a list item</param>
+        /// <returns>An XML fragment</returns>
+        private XmlNode GetWebPermissions(string siteName)
+        {
+            if (!siteName.Equals("/"))
+                throw RaiseException("Parameter 'objectName' must be /", "2000", "GetPermissionCollection");
+
+            using (SPWeb site = SPContext.Current.Web)
+            {
+                return PopulateResponse(site);
+            }
+        }
+        
+        /// <summary>
         /// Given the name of a list item, return an XML fragment describing the set of permissions
         /// for the specified list item.
         /// </summary>
@@ -175,8 +208,6 @@ namespace MetaCarta.SharePoint.SoapServer
         /// <returns>An XML fragment</returns>
         private XmlNode GetItemPermissions(string itemName)
         {
-            XmlNode retVal = null;
-
             if (string.IsNullOrEmpty(itemName))
                 throw RaiseException("Parameter 'objectName' cannot be null or empty.", "2000", "GetPermissionCollection");
 
@@ -184,34 +215,39 @@ namespace MetaCarta.SharePoint.SoapServer
             {
                 SPListItem item = site.GetListItem(itemName);
 
-                if (item.RoleAssignments.Count > 0)
-                {
-                    XmlDocument doc = new XmlDocument();
-                    retVal = doc.CreateElement("GetPermissionCollection", 
-                        "http://schemas.microsoft.com/sharepoint/soap/directory/");
-                    XmlNode permissionsNode = doc.CreateElement("Permissions");
-
-                    // A list item can have one or more role assignments.  Each role assignment
-                    // represents a member (user or group) with one or more permissions.  
-                    // The code below creates a Permission node for every member-permission assignment.
-                    foreach (SPRoleAssignment assignment in item.RoleAssignments)
-                    {
-                        SPPrincipal member = assignment.Member;
-
-                        foreach (SPRoleDefinition roleDefinition in assignment.RoleDefinitionBindings)
-                        {
-                            XmlNode permissionNode = CreatePermissionNode(doc, member, roleDefinition);
-                            permissionsNode.AppendChild(permissionNode);
-                        }
-
-                        retVal.AppendChild(permissionsNode);
-                    }
-                }
+                return PopulateResponse(item);
             }
-
-            return retVal;
         }
 
+        private XmlNode PopulateResponse(SPSecurableObject item)
+        {
+            XmlNode retVal = null;
+            if (item.RoleAssignments.Count > 0)
+            {
+                XmlDocument doc = new XmlDocument();
+                retVal = doc.CreateElement("GetPermissionCollection", 
+                    "http://schemas.microsoft.com/sharepoint/soap/directory/");
+                XmlNode permissionsNode = doc.CreateElement("Permissions");
+
+                // A list item can have one or more role assignments.  Each role assignment
+                // represents a member (user or group) with one or more permissions.  
+                // The code below creates a Permission node for every member-permission assignment.
+                foreach (SPRoleAssignment assignment in item.RoleAssignments)
+                {
+                    SPPrincipal member = assignment.Member;
+
+                    foreach (SPRoleDefinition roleDefinition in assignment.RoleDefinitionBindings)
+                    {
+                        XmlNode permissionNode = CreatePermissionNode(doc, member, roleDefinition);
+                        permissionsNode.AppendChild(permissionNode);
+                    }
+
+                    retVal.AppendChild(permissionsNode);
+                }
+            }
+            return retVal;
+        }
+        
         private XmlNode CreatePermissionNode(XmlDocument doc, SPPrincipal member, SPRoleDefinition roleDefinition)
         {
             XmlNode retVal = doc.CreateElement("Permission");
