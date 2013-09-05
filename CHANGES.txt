@@ -3,6 +3,9 @@ $Id$
 
 ======================= 0.3-dev =====================
 
+CONNECTORS-754: Remove dependency on Permissions.asmx.
+(Will Parkinson, Karl Wright)
+
 CONNECTORS-758: Change log output to go to trace log.
 (Christian M. Rieck, Will Parkinson, Karl Wright)
 
