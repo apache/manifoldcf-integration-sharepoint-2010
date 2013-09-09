@@ -93,56 +93,53 @@ namespace MetaCarta.SharePoint.SoapServer
                 uint startRowParam = Convert.ToUInt32(startRow);
                 uint rowLimitParam = Convert.ToUInt32(rowLimit);
 
-                using (SPSite site = new SPSite(SPContext.Current.Web.Url))
+                using (SPWeb oWebsiteRoot = SPContext.Current.Web)
                 {
-                    using (SPWeb oWebsiteRoot = site.OpenWeb())
+                    if (oWebsiteRoot != null)
                     {
-                        if (oWebsiteRoot != null)
+
+                        oWebsiteRoot.Lists.IncludeRootFolder = true;
+                        SPList oList = oWebsiteRoot.Lists[new Guid(listName)];
+
+                        SPQuery listQuery = new SPQuery();
+                        listQuery.Query = "<OrderBy Override=\"TRUE\"><FieldRef Name=\"FileRef\" /></OrderBy>";
+                        listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
+                        listQuery.ViewAttributes = "Scope=\"Recursive\"";
+                        listQuery.ViewFields = "<FieldRef Name='FileRef' />";
+                        listQuery.RowLimit = 1000;
+
+                        XmlDocument doc = new XmlDocument();
+                        retVal = doc.CreateElement("GetListItems", 
+                            "http://schemas.microsoft.com/sharepoint/soap/directory/");
+                        XmlNode getListItemsNode = doc.CreateElement("GetListItemsResponse");
+
+                        uint counter = 0;
+                        do
                         {
+                            if (counter >= startRowParam + rowLimitParam)
+                                break;
 
-                            oWebsiteRoot.Lists.IncludeRootFolder = true;
-                            SPList oList = oWebsiteRoot.Lists[new Guid(listName)];
+                            SPListItemCollection collListItems = oList.GetItems(listQuery);
 
-                            SPQuery listQuery = new SPQuery();
-                            listQuery.Query = "<OrderBy Override=\"TRUE\"><FieldRef Name=\"FileRef\" /></OrderBy>";
-                            listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
-                            listQuery.ViewAttributes = "Scope=\"Recursive\"";
-                            listQuery.ViewFields = "<FieldRef Name='FileRef' />";
-                            listQuery.RowLimit = 1000;
 
-                            XmlDocument doc = new XmlDocument();
-                            retVal = doc.CreateElement("GetListItems", 
-                                "http://schemas.microsoft.com/sharepoint/soap/directory/");
-                            XmlNode getListItemsNode = doc.CreateElement("GetListItemsResponse");
-
-                            uint counter = 0;
-                            do
+                            foreach (SPListItem oListItem in collListItems)
                             {
-                                if (counter >= startRowParam + rowLimitParam)
-                                    break;
-
-                                SPListItemCollection collListItems = oList.GetItems(listQuery);
-
-
-                                foreach (SPListItem oListItem in collListItems)
+                                if (counter >= startRowParam && counter < startRowParam + rowLimitParam)
                                 {
-                                    if (counter >= startRowParam && counter < startRowParam + rowLimitParam)
-                                    {
-                                        XmlNode resultNode = doc.CreateElement("GetListItemsResult");
-                                        XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
-                                        idAttribute.Value = oListItem.Url;
-                                        resultNode.Attributes.Append(idAttribute);
-                                        getListItemsNode.AppendChild(resultNode);
-                                    }
-                                    counter++;
+                                    XmlNode resultNode = doc.CreateElement("GetListItemsResult");
+                                    XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
+                                    idAttribute.Value = oListItem.Url;
+                                    resultNode.Attributes.Append(idAttribute);
+                                    getListItemsNode.AppendChild(resultNode);
                                 }
+                                counter++;
+                            }
                                 
-                                listQuery.ListItemCollectionPosition = collListItems.ListItemCollectionPosition;
+                            listQuery.ListItemCollectionPosition = collListItems.ListItemCollectionPosition;
 
-                            } while (listQuery.ListItemCollectionPosition != null);
+                        } while (listQuery.ListItemCollectionPosition != null);
                             
-                            retVal.AppendChild(getListItemsNode);
-                        }
+                        retVal.AppendChild(getListItemsNode);
                     }
 
                 }
