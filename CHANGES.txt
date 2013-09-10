@@ -3,6 +3,10 @@ $Id$
 
 ======================= 0.3-dev =====================
 
+CONNECTORS-772: SharePoint on AWS does not permit using the
+URL to locate the site.
+(Dmitry Goldenberg, Karl Wright)
+
 CONNECTORS-754: Remove dependency on Permissions.asmx.
 (Will Parkinson, Karl Wright)
 
