@@ -1,8 +1,6 @@
 Apache ManifoldCF Plugin for SharePoint 2010 change Log
 $Id$
 
-======================= 0.4-dev =====================
-
 ======================= Release 0.3 =====================
 
 CONNECTORS-772: SharePoint on AWS does not permit using the
