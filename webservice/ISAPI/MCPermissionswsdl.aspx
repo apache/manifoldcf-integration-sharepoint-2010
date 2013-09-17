@@ -113,6 +113,11 @@
       <wsdl:input message="tns:GetListItemsSoapIn" />
       <wsdl:output message="tns:GetListItemsSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetSites">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reliably return list of subsites.</wsdl:documentation>
+      <wsdl:input message="tns:GetSitesSoapIn" />
+      <wsdl:output message="tns:GetSitesSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="PermissionsSoap" type="tns:PermissionsSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
