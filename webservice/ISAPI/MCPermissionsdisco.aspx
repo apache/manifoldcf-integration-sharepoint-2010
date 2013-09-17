@@ -14,7 +14,7 @@
 <% // limitations under the License.                                          %>
 
 <%@ Page Language="C#" Inherits="System.Web.UI.Page" %> 
-<%@ Assembly Name="Microsoft.SharePoint, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %> 
+<%@ Assembly Name="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %> 
 <%@ Import Namespace="Microsoft.SharePoint.Utilities" %> 
 <%@ Import Namespace="Microsoft.SharePoint" %> 
 <% Response.ContentType = "text/xml"; %>

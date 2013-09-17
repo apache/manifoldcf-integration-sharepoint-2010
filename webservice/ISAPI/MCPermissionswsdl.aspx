@@ -13,7 +13,7 @@
 <% // See the License for the specific language governing permissions and     %>
 <% // limitations under the License.                                          %>
 <%@ Page Language="C#" Inherits="System.Web.UI.Page" %> 
-<%@ Assembly Name="Microsoft.SharePoint, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %> 
+<%@ Assembly Name="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %> 
 <%@ Import Namespace="Microsoft.SharePoint.Utilities" %> 
 <%@ Import Namespace="Microsoft.SharePoint" %> 
 <% Response.ContentType = "text/xml"; %>
@@ -63,6 +63,25 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetSites">
+        <s:complexType>
+          <s:sequence>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSitesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSitesResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetPermissionCollectionSoapIn">
@@ -76,6 +95,12 @@
   </wsdl:message>
   <wsdl:message name="GetListItemsSoapOut">
     <wsdl:part name="parameters" element="tns:GetListItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSitesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSites" />
+  </wsdl:message>
+  <wsdl:message name="GetSitesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSitesResponse" />
   </wsdl:message>
   <wsdl:portType name="PermissionsSoap">
     <wsdl:operation name="GetPermissionCollection">
@@ -109,6 +134,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetSites">
+      <soap:operation soapAction="http://microsoft.com/sharepoint/webpartpages/GetSites" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="PermissionsSoap12" type="tns:PermissionsSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -123,6 +157,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetListItems">
       <soap12:operation soapAction="http://microsoft.com/sharepoint/webpartpages/GetListItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSites">
+      <soap12:operation soapAction="http://microsoft.com/sharepoint/webpartpages/GetSites" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

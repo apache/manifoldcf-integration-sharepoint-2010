@@ -156,7 +156,47 @@ namespace MetaCarta.SharePoint.SoapServer
 
             return retVal;
         }
-        
+
+        [WebMethod(Description = "Returns the list of subsites reliably on SharePoint 2010 AWS systems.")]
+        public XmlNode GetSites()
+        {
+            XmlNode retVal = null;
+
+            try
+            {
+                using (SPWeb oWebsiteRoot = SPContext.Current.Web)
+                {
+                    if (oWebsiteRoot != null)
+                    {
+                        XmlDocument doc = new XmlDocument();
+                        retVal = doc.CreateElement("GetSites", 
+                            "http://schemas.microsoft.com/sharepoint/soap/directory/");
+                        XmlNode getListItemsNode = doc.CreateElement("GetSitesResponse");
+
+                        foreach (SPWeb oWeb in oWebsiteRoot.Webs)
+                        {
+                            XmlNode resultNode = doc.CreateElement("GetSitesResult");
+                            XmlAttribute siteAttribute = doc.CreateAttribute("Site");
+                            siteAttribute.Value = oWeb.Url;
+                            resultNode.Attributes.Append(siteAttribute);
+                            getListItemsNode.AppendChild(resultNode);
+                        }
+                    }
+                }
+            }
+            catch (SoapException soapEx)
+            {
+                throw soapEx;
+            }
+            catch (Exception ex)
+            {
+                SPDiagnosticsService.Local.WriteTrace(0, new SPDiagnosticsCategory("MCPermissions.asmx", TraceSeverity.Unexpected, EventSeverity.Error), TraceSeverity.Unexpected, "Error: "+ex.Message, ex.StackTrace);
+                throw RaiseException(ex.Message, "1020", ex.Source);
+            }
+
+            return retVal;
+        }
+
         #endregion
 
         #region Private Methods
