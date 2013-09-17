@@ -171,16 +171,21 @@ namespace MetaCarta.SharePoint.SoapServer
                         XmlDocument doc = new XmlDocument();
                         retVal = doc.CreateElement("GetSites", 
                             "http://schemas.microsoft.com/sharepoint/soap/directory/");
-                        XmlNode getListItemsNode = doc.CreateElement("GetSitesResponse");
+                        XmlNode getSitesNode = doc.CreateElement("GetSitesResponse");
 
                         foreach (SPWeb oWeb in oWebsiteRoot.Webs)
                         {
                             XmlNode resultNode = doc.CreateElement("GetSitesResult");
-                            XmlAttribute siteAttribute = doc.CreateAttribute("Site");
-                            siteAttribute.Value = oWeb.Url;
-                            resultNode.Attributes.Append(siteAttribute);
-                            getListItemsNode.AppendChild(resultNode);
+                            XmlAttribute urlAttribute = doc.CreateAttribute("URL");
+                            urlAttribute.Value = oWeb.Url;
+                            resultNode.Attributes.Append(urlAttribute);
+                            XmlAttribute nameAttribute = doc.CreateAttribute("Name");
+                            nameAttribute.Value = oWeb.Title;
+                            resultNode.Attributes.Append(nameAttribute);
+                            getSitesNode.AppendChild(resultNode);
                         }
+                        
+                        retVal.AppendChild(getSitesNode);
                     }
                 }
             }
