@@ -105,7 +105,7 @@ namespace MetaCarta.SharePoint.SoapServer
                         listQuery.Query = "<OrderBy Override=\"TRUE\"><FieldRef Name=\"FileRef\" /></OrderBy>";
                         listQuery.QueryThrottleMode = SPQueryThrottleOption.Override;
                         listQuery.ViewAttributes = "Scope=\"Recursive\"";
-                        listQuery.ViewFields = "<FieldRef Name='FileRef'/><FieldRef Name='ID'/><FieldRef Name='UniqueId'/>";
+                        listQuery.ViewFields = "<FieldRef Name='FileRef' />";
                         listQuery.RowLimit = 1000;
 
                         XmlDocument doc = new XmlDocument();
@@ -127,15 +127,9 @@ namespace MetaCarta.SharePoint.SoapServer
                                 if (counter >= startRowParam && counter < startRowParam + rowLimitParam)
                                 {
                                     XmlNode resultNode = doc.CreateElement("GetListItemsResult");
-                                    XmlAttribute urlAttribute = doc.CreateAttribute("FileRef");
-                                    urlAttribute.Value = oListItem.Url;
-                                    resultNode.Attributes.Append(urlAttribute);
-                                    XmlAttribute idAttribute = doc.CreateAttribute("ID");
-                                    idAttribute.Value = oListItem.ID.ToString();
+                                    XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
+                                    idAttribute.Value = oListItem.Url;
                                     resultNode.Attributes.Append(idAttribute);
-                                    XmlAttribute uniqueIdAttribute = doc.CreateAttribute("GUID");
-                                    uniqueIdAttribute.Value = oListItem.UniqueId.ToString();
-                                    resultNode.Attributes.Append(uniqueIdAttribute);
                                     getListItemsNode.AppendChild(resultNode);
                                 }
                                 counter++;
