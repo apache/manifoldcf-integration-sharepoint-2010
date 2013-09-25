@@ -5,10 +5,6 @@ $Id$
 
 ======================= Release 0.3 =====================
 
-CONNECTORS-782: Add support for GUID return value for lists
-service.
-(Dmitry Goldenberg, Karl Wright)
-
 CONNECTORS-772: SharePoint on AWS does not permit using the
 URL to locate the site.
 (Dmitry Goldenberg, Karl Wright)
