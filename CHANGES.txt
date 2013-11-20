@@ -3,9 +3,6 @@ $Id$
 
 ======================= 0.4-dev =====================
 
-CONNECTORS-813: Include a URL that should be used to send to the
-output connector for a given list item.
-
 ======================= Release 0.3 =====================
 
 CONNECTORS-772: SharePoint on AWS does not permit using the
