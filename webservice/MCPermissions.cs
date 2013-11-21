@@ -130,6 +130,10 @@ namespace MetaCarta.SharePoint.SoapServer
                                     XmlAttribute idAttribute = doc.CreateAttribute("FileRef");
                                     idAttribute.Value = oListItem.Url;
                                     resultNode.Attributes.Append(idAttribute);
+                                    XmlAttribute urlAttribute = doc.CreateAttribute("ListItemURL");
+                                    //urlAttribute.Value = oListItem.ParentList.DefaultViewUrl;
+                                    urlAttribute.Value = string.Format("{0}?ID={1}", oListItem.ParentList.Forms[PAGETYPE.PAGE_DISPLAYFORM].ServerRelativeUrl, oListItem.ID);
+                                    resultNode.Attributes.Append(urlAttribute);
                                     getListItemsNode.AppendChild(resultNode);
                                 }
                                 counter++;
