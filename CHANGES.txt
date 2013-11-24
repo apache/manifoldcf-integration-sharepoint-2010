@@ -1,7 +1,7 @@
 Apache ManifoldCF Plugin for SharePoint 2010 change Log
 $Id$
 
-======================= 0.4-dev =====================
+======================= Release 0.4 =====================
 
 CONNECTORS-813: Include a URL that should be used to send to the
 output connector for a given list item.
